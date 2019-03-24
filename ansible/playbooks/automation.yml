@@ -1,0 +1,11 @@
+---
+
+- name: Instalando o Rundeck
+  hosts: automation.triplex
+  roles:
+    - jenkins
+#    - rundeck
+
+
+
+...

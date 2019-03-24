@@ -1,0 +1,40 @@
+---
+# tasks file for gitlab
+
+- name: Instalacao das dependencias o gitLab
+  apt: name={{item}} update_cache=yes state=present
+  with_items:
+    - curl
+    - openssh-server
+    - postfix
+    - ca-certificates
+
+- name: Baixar o pacote do repositorio get_url
+  get_url:
+    url: "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh"
+    dest: /tmp/script.deb.sh
+    owner: root
+
+- name: Mudando a permissao do arquivo
+  file:
+    path: /tmp/script.deb.sh
+    mode: 0777
+
+- name: Instalacao do repositorio do gitLab
+  command: /tmp/script.deb.sh
+
+- name: Instalacao do GitLab
+  apt:
+    name: gitlab-ce
+    update_cache: yes
+    state: present
+
+- name: Configurando o GitLab para o primeiro uso
+  command: gitlab-ctl reconfigure
+
+- name: Removendo o script de instalacao do repositorio
+  file:
+    path: /tmp/script.deb.sh
+    state: absent
+
+...

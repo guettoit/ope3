@@ -1,0 +1,8 @@
+[grupo_repo]
+repo.triplex
+
+[grupo_automation]
+automation.triplex
+
+[grupo_docker]
+docker1.triplex

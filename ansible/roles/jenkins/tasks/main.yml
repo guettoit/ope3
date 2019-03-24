@@ -1,0 +1,21 @@
+---
+# tasks file for jenkins
+
+- name: Instalando as Dependencias do Jenkins
+  apt:
+    name: openjdk-8-jdk
+    update_cache: yes
+    state: present
+
+- name: Criando o diretorio do Jenkins
+  file:
+    path: /etc/jenkins
+
+- name: Fazendo download do pacote jenkins.war
+  get_url:
+    url: "http://mirrors.jenkins.io/war-stable/latest/jenkins.war"
+    dest: /etc/jenkins/jenkins.war
+    mode: 0755
+
+- name: Instalando o Jenkins
+  command: java -jar /etc/jenkins/jenkins.war --httpPort=8080

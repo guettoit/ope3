@@ -1,0 +1,9 @@
+---
+
+- name: Instalando o repositorio GitLab
+  hosts: repo.triplex
+  roles:
+    - gitlab
+
+
+...

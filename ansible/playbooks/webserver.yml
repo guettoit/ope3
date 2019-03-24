@@ -1,0 +1,9 @@
+---
+
+- name: Instalando os pacotes para o WebServer
+  hosts: docker1.triplex
+  roles:
+    - docker
+
+
+...

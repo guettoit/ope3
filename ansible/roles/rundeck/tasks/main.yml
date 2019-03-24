@@ -1,0 +1,45 @@
+---
+# tasks file for rundeck
+
+- name: Instalando as dependencias do Rundeck
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+      - openjdk-8-jre-headless
+      - curl
+      - uuid-runtime
+
+- name: Download do pacote do Rundeck
+  get_url:
+    url: "https://dl.bintray.com/rundeck/rundeck-deb/rundeck_3.0.17.20190311-1.201903111853_all.deb"
+    dest: /tmp/rundeck.deb
+    mode: 0775
+
+- name: Instalando o Rundeck
+  command: dpkg -i /tmp/rundeck.deb
+
+- name: Copiando o arquivo frameworks.properties
+  copy:
+    src: /etc/ansible/roles/rundeck/files/framework.properties
+    dest: /etc/rundeck/framework.properties
+    force: yes
+    owner: rundeck
+    group: rundeck
+    mode: 0600
+
+- name: Copiando o arquivo rundeck
+  copy:  
+    src: /etc/ansible/roles/rundeck/files/rundeck-config.properties
+    dest: /etc/rundeck/rundeck-config.properties
+    force: yes
+    owner: rundeck
+    group: rundeck
+    mode: 0600
+
+- name: Restart do Rundeck
+  command: /etc/init.d/rundeckd restart
+
+...
